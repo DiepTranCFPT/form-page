@@ -259,3 +259,62 @@ h1, h2, h3, .q-title, .modal-header-text h2 {
 }
 .res-val {
     font-family: var(--font-heading);}
+/* ... Giữ nguyên phần :root và body cũ ... */
+:root {
+    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    --surface: rgba(255, 255, 255, 0.95);
+    --text-main: #1e293b;
+    --radius: 20px;
+}
+
+/* --- THÊM PHẦN STYLE CHO CỔNG CHÀO (WELCOME GATE) --- */
+#welcome-screen { text-align: center; padding-bottom: 20px; }
+
+.gate-box {
+    max-width: 500px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    padding: 10px; /* Tạo viền trắng */
+}
+
+.gate-content {
+    background: #f8fafc;
+    padding: 30px;
+    border-radius: 18px;
+    border: 1px dashed #cbd5e1;
+}
+
+.gate-content h3 { margin-top: 0; color: #1e293b; font-size: 1.5rem; }
+
+.form-group { margin-bottom: 20px; text-align: left; }
+.form-group label {
+    display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 8px; color: #475569;
+}
+.form-group input {
+    width: 100%; padding: 14px;
+    border: 1px solid #e2e8f0; border-radius: 12px;
+    font-size: 1rem; transition: all 0.2s; outline: none;
+}
+.form-group input:focus {
+    border-color: #8b5cf6; box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.btn-start {
+    width: 100%; padding: 16px;
+    background: var(--primary-gradient);
+    color: white; font-weight: 800; font-size: 1.1rem;
+    border: none; border-radius: 12px;
+    cursor: pointer; margin-top: 10px;
+    box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+    transition: transform 0.2s;
+}
+.btn-start:hover { transform: translateY(-3px); }
+
+.privacy-note { font-size: 0.8rem; color: #94a3b8; margin-top: 15px; }
+
+/* ... Giữ nguyên các phần CSS cũ (progress-bar, q-card, modal...) ... */
+/* Nếu bạn copy đè thì hãy dán đè toàn bộ nội dung file css cũ bằng file css này nếu muốn chắc chắn,
+   nhưng phần trên chỉ là bổ sung. Để an toàn, hãy giữ lại phần CSS cũ và paste đoạn trên vào cuối file */

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khám Phá Bản Thân - MBTI & DISC</title>
+    <title>Đánh Giá Năng Lực MBTI & DISC</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,42 +12,63 @@
     <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
 
     <div class="container">
-        <header>
-            <h1>Hồ Sơ Năng Lực 4.0</h1>
-            <p class="subtitle">Kết hợp MBTI & DISC để tìm ra phiên bản tốt nhất của bạn</p>
-        </header>
+        <div id="welcome-screen">
+            <header>
+                <h1>Hồ Sơ Năng Lực 4.0</h1>
+                <p class="subtitle">Công cụ tham khảo định hướng Tính cách- Nghề nghiệp để tìm ra phiên bản tốt nhất của bạn.</p>
+            </header>
 
-        <div class="nav-tabs">
-            <div class="tab-group">
-                <button class="tab-btn active" onclick="app.switchTab('mbti')">1. MBTI (Tính cách)</button>
-                <button class="tab-btn" onclick="app.switchTab('disc')">2. DISC (Hành vi)</button>
-            </div>
-            <div class="action-group">
-                <button class="btn-result" onclick="app.calculate()">✨ Xem Kết Quả Ngay</button>
-                <button class="link-reset" onclick="app.resetTest()">↺ Làm lại từ đầu</button>
+            <div class="gate-box">
+                <div class="gate-content">
+                    <h3>🔒 Mở khóa bài đánh giá</h3>
+                    <p>Vui lòng điền thông tin để bắt đầu làm bài test (Miễn phí).</p>
+                    
+                    <div class="form-group">
+                        <label>Họ và tên *</label>
+                        <input type="text" id="inp-name" placeholder="Ví dụ: Nguyễn Văn A">
+                    </div>
+                        <div class="form-group">
+                            <label>Số điện thoại *</label>
+                            <input type="tel" id="inp-phone" name="phone" placeholder="0912..." required>
+                            <small class="error" id="err-phone"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email (Để nhận kết quả chi tiết)</label>
+                            <input type="email" id="inp-email" name="email" placeholder="email@example.com">
+                            <small class="error" id="err-email"></small>
+                        </div>
+                    
+<button class="btn-start" onclick="handleStartTest(event)">
+    🚀 BẮT ĐẦU LÀM BÀI NGAY
+</button>
+                    <p class="privacy-note">🔒 Cam kết bảo mật thông tin 100%</p>
+                </div>
             </div>
         </div>
 
-        <div class="content-area">
-            <div id="mbti" class="tab-content active">
-                <div class="intro-card">
-                    <strong>💡 Mẹo:</strong> Hãy chọn đáp án phản ánh con người thật của bạn <em>ngay lúc này</em>, đừng chọn điều bạn mong muốn trở thành.
+        <div id="main-app" style="display: none;">
+            <div class="nav-tabs">
+                <div class="tab-group">
+                    <button class="tab-btn active" onclick="app.switchTab('mbti')">1. Tính cách</button>
+                    <button class="tab-btn" onclick="app.switchTab('disc')">2. Hành vi</button>
                 </div>
-                <div id="mbti-list">
-                    </div>
-                <div class="footer-nav">
-                    <button class="btn-next" onclick="app.switchTab('disc')">Tiếp tục sang DISC ➔</button>
+                <div class="action-group">
+                    <button class="btn-result" onclick="app.finishAndSave()">✨ Xem Kết Quả</button>
                 </div>
             </div>
 
-            <div id="disc" class="tab-content">
-                <div class="intro-card">
-                    <strong>🎯 Hướng dẫn:</strong> Trong mỗi dòng, hãy chọn 01 cụm từ mô tả <strong>GIỐNG BẠN NHẤT</strong>.
+            <div class="content-area">
+                <div id="mbti" class="tab-content active">
+                    <div class="intro-card"><strong>💡 Mẹo:</strong> Chọn đáp án phản ánh con người thật của bạn <em>ngay lúc này</em>.</div>
+                    <div id="mbti-list"></div>
+                    <div class="footer-nav"><button class="btn-next" onclick="app.switchTab('disc')">Tiếp tục sang DISC ➔</button></div>
                 </div>
-                <div id="disc-list">
-                    </div>
-                <div class="footer-nav">
-                    <button class="btn-next finish-btn" onclick="app.calculate()">Hoàn tất & Xem kết quả 🏁</button>
+
+                <div id="disc" class="tab-content">
+                    <div class="intro-card"><strong>🎯 Hướng dẫn:</strong> Chọn 01 cụm từ mô tả <strong>GIỐNG BẠN NHẤT</strong>.</div>
+                    <div id="disc-list"></div>
+                    <div class="footer-nav"><button class="btn-next finish-btn" onclick="app.finishAndSave()">Hoàn tất & Xem kết quả 🏁</button></div>
                 </div>
             </div>
         </div>
@@ -57,20 +78,20 @@
         <div class="modal-content">
             <span class="close-modal" onclick="document.getElementById('result-modal').style.display='none'">&times;</span>
             <div class="modal-header-text">
-                <h2>Kết Quả Phân Tích</h2>
-                <p>Dựa trên dữ liệu 80 câu trả lời của bạn</p>
+                <h2>Hồ Sơ Năng Lực Của Bạn</h2>
+                <p>Chào <span id="user-name-display" style="color:#6366f1; font-weight:700;">bạn</span>, đây là kết quả phân tích:</p>
             </div>
 
             <div class="result-grid">
                 <div class="res-box">
-                    <span>Kiểu tính cách (MBTI)</span>
+                    <span>MBTI</span>
                     <span class="res-val" id="res-mbti">---</span>
-                    <small id="desc-mbti">Đang tính toán...</small>
+                    <small id="desc-mbti">...</small>
                 </div>
                 <div class="res-box">
-                    <span>Phong cách hành vi (DISC)</span>
+                    <span>DISC</span>
                     <span class="res-val" id="res-disc">---</span>
-                    <small id="desc-disc">Đang tính toán...</small>
+                    <small id="desc-disc">...</small>
                 </div>
             </div>
 
@@ -79,20 +100,15 @@
                 <table id="career-table">
                     <thead>
                         <tr>
-                            <th>Lĩnh vực</th>
-                            <th>Vị trí gợi ý</th>
-                            <th>Môi trường làm việc</th>
+                            <th>Nhóm ngành lớn</th> <th>Nhánh / Lĩnh Vực</th> <th>Môi trường & kiểu công việc</th>
                         </tr>
                     </thead>
                     <tbody id="career-body"></tbody>
                 </table>
             </div>
-            <div id="no-match" class="alert-box">
-                Chưa tìm thấy dữ liệu khớp chính xác 100%. Hãy thử tham khảo các nhóm gần giống hoặc làm lại bài test kỹ hơn.
-            </div>
-            
+            <div id="no-match" class="alert-box">Chưa tìm thấy dữ liệu khớp 100%.</div>
             <div class="modal-footer">
-                <button class="link-reset" onclick="app.resetTest()">🔄 Xóa kết quả & Làm lại</button>
+                <button class="link-reset" onclick="app.resetTest()">🔄 Làm lại từ đầu</button>
             </div>
         </div>
     </div>
@@ -100,3 +116,50 @@
     <script src="script.js"></script>
 </body>
 </html>
+
+<script>
+function validateForm() {
+    let phone = document.getElementById("inp-phone").value.trim();
+    let email = document.getElementById("inp-email").value.trim();
+
+    let errPhone = document.getElementById("err-phone");
+    let errEmail = document.getElementById("err-email");
+
+    errPhone.textContent = "";
+    errEmail.textContent = "";
+
+    let isValid = true;
+
+    // Regex số điện thoại VN (10 số, bắt đầu bằng 0)
+    let phoneRegex = /^0\d{9}$/;
+
+    if (!phone) {
+        errPhone.textContent = "Vui lòng nhập số điện thoại";
+        isValid = false;
+    } else if (!phoneRegex.test(phone)) {
+        errPhone.textContent = "Số điện thoại không hợp lệ (VD: 0912345678)";
+        isValid = false;
+    }
+
+    // Regex email
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (email && !emailRegex.test(email)) {
+        errEmail.textContent = "Email không đúng định dạng";
+        isValid = false;
+    }
+
+    return isValid;
+}
+function handleStartTest(event) {
+    event.preventDefault(); // chặn submit / hành động mặc định
+
+    // gọi hàm validate bạn đã có
+    if (!validateForm()) {
+        return false; // không cho start test
+    }
+
+    // nếu hợp lệ thì mới cho chạy
+    app.startTest();
+}
+</script>

@@ -85,92 +85,91 @@ const DISC_DATA = [
     {id:40,opts:[{t:'D',txt:'Kiên quyết'},{t:'I',txt:'Linh hoạt'},{t:'S',txt:'Tận tâm'},{t:'C',txt:'Khách quan'}]}
 ];
 
+// CẬP NHẬT DỮ LIỆU NGHỀ NGHIỆP CHI TIẾT THEO TÀI LIỆU GỐC 
 const CAREERS = [
-    {m:['E','T','J'],d:['D','C'],f:'QUẢN LÝ',j:'CEO, Quản lý dự án, Vận hành',e:'Mục tiêu rõ, KPI, quyền quyết định'},
-    {m:['E','T'],d:['D','I'],f:'KINH DOANH',j:'Sales B2B, BizDev, Thị trường',e:'Giao tiếp, chiến lược, ảnh hưởng'},
-    {m:['S','T','J'],d:['C'],f:'TÀI CHÍNH',j:'Kế toán, Kiểm toán, Ngân hàng',e:'Chuẩn mực, số liệu, quy trình'},
-    {m:['T','J'],d:['C','D'],f:'PHÂN TÍCH',j:'Data Analyst, Đầu tư',e:'Đánh giá rủi ro, logic'},
-    {m:['S','T','J'],d:['D','C'],f:'LUẬT',j:'Luật sư, Hành chính công',e:'Quy định rõ, tranh luận logic'},
-    {m:['E','T'],d:['I','D'],f:'MARKETING',j:'Brand Manager, PR, Truyền thông',e:'Sáng tạo có mục tiêu'},
-    {m:['S','J'],d:['C'],f:'Y TẾ',j:'Bác sĩ, Dược sĩ, Xét nghiệm',e:'Chính xác, quy trình'},
-    {m:['E','F'],d:['I','S'],f:'DỊCH VỤ',j:'Nhân sự (HR), CSKH, Giáo viên',e:'Kết nối con người, hỗ trợ'},
-    {m:['I','F'],d:['S','C'],f:'SÁNG TẠO',j:'Designer, Writer, Content',e:'Tự do, không gian riêng'},
-    {m:['I','T'],d:['C'],f:'KỸ THUẬT',j:'Developer, Kỹ sư hệ thống',e:'Logic, kỹ thuật sâu'}
+    // QUẢN LÝ – KINH DOANH
+    {m:['E','T','J'], d:['D','C'], f:'QUẢN LÝ – KINH DOANH', branch:'Quản trị – điều hành', j:'Quản trị KD, Quản lý dự án, Logistics', e:'Mục tiêu rõ, KPI, quyền quyết định'},
+    {m:['E','T'], d:['D','I'], f:'QUẢN LÝ – KINH DOANH', branch:'Kinh doanh – phát triển', j:'Sales B2B, BizDev, Phát triển thị trường', e:'Giao tiếp, chiến lược, ảnh hưởng'},
+    
+    // KINH TẾ – TÀI CHÍNH
+    {m:['S','T','J'], d:['C'], f:'KINH TẾ – TÀI CHÍNH', branch:'Tài chính – kế toán', j:'Kế toán, Kiểm toán, Ngân hàng', e:'Chuẩn mực, số liệu, quy trình'},
+    {m:['T','J'], d:['C','D'], f:'KINH TẾ – TÀI CHÍNH', branch:'Phân tích – đầu tư', j:'Phân tích kinh doanh, Đầu tư, Chứng khoán', e:'Đánh giá rủi ro, logic'},
+    
+    // LUẬT – HÀNH CHÍNH
+    {m:['S','T','J'], d:['D','C'], f:'LUẬT – HÀNH CHÍNH', branch:'Pháp lý – chính sách', j:'Luật sư, Hành chính công, Quan hệ quốc tế', e:'Quy định rõ, tranh luận logic'},
+    
+    // TRUYỀN THÔNG – MARKETING
+    {m:['E','T','J'], d:['I','D'], f:'TRUYỀN THÔNG – MKT', branch:'Chiến lược – quản trị', j:'Marketing chiến lược, PR, Truyền thông DN', e:'Có mục tiêu, đo lường'},
+    {m:['E','T'], d:['I'], f:'TRUYỀN THÔNG – MKT', branch:'Truyền thông xã hội', j:'Truyền thông cộng đồng, Vận động chính sách', e:'Ảnh hưởng xã hội'},
+    
+    // SỨC KHỎE
+    {m:['S','T','J'], d:['C'], f:'SỨC KHỎE', branch:'Y học ứng dụng', j:'Y học dự phòng, Xét nghiệm, Chẩn đoán', e:'Phác đồ, dữ liệu'},
+    {m:['E','T','J'], d:['D'], f:'SỨC KHỎE', branch:'Quản lý y tế', j:'Quản lý bệnh viện, Điều phối y tế', e:'Điều hành hệ thống'},
+    
+    // DƯỢC – CNSH
+    {m:['S','T','J'], d:['C'], f:'DƯỢC – CNSH', branch:'Dược – kiểm nghiệm', j:'Dược học, Kiểm nghiệm thuốc', e:'Phòng lab, chính xác'},
+    {m:['S','T'], d:['C'], f:'DƯỢC – CNSH', branch:'Công nghệ sinh học', j:'QA/QC, Nghiên cứu ứng dụng', e:'Nghiên cứu, quy trình'},
+    
+    // NGHIÊN CỨU
+    {m:['T','J'], d:['C'], f:'NGHIÊN CỨU', branch:'Nghiên cứu ứng dụng', j:'Y sinh, Dịch tễ, Hành vi định lượng', e:'Thực chứng, chính sách'},
+    {m:['T','J'], d:['C'], f:'NGHIÊN CỨU', branch:'Dữ liệu – phân tích', j:'Data Analyst (Y sinh, Xã hội, Kinh tế)', e:'Mô hình, logic'},
+    
+    // GIÁO DỤC
+    {m:['E','T','J'], d:['D','C'], f:'GIÁO DỤC', branch:'Quản lý giáo dục', j:'Quản lý GD, Chính sách GD, Kiểm định', e:'Hệ thống, tiêu chuẩn'},
+    {m:['S','T','J'], d:['C'], f:'GIÁO DỤC', branch:'Giảng dạy chuyên môn', j:'Sư phạm, Giảng viên', e:'Logic, đầu ra rõ'},
+    {m:['E','T','J'], d:['I','D'], f:'GIÁO DỤC', branch:'Tư vấn – đào tạo', j:'Tư vấn hướng nghiệp, Coaching, Đào tạo DN', e:'Dẫn dắt, định hướng'},
+    
+    // XÃ HỘI
+    {m:['E','T','J'], d:['D','S'], f:'XÃ HỘI', branch:'Quản lý – điều phối', j:'Dự án xã hội, NGO, Phát triển cộng đồng', e:'Tổ chức, điều hành'},
+    {m:['T','J'], d:['C'], f:'XÃ HỘI', branch:'Nghiên cứu xã hội', j:'Xã hội học, Tâm lý học ứng dụng', e:'Phân tích, đánh giá'},
+    
+    // DỊCH VỤ – CSKH
+    {m:['E','T'], d:['I','D'], f:'DỊCH VỤ – CSKH', branch:'CSKH chuyên nghiệp', j:'Customer Success, Account Manager', e:'KPI rõ, chủ động xử lý'},
+    {m:['E','T','J'], d:['D'], f:'DỊCH VỤ – CSKH', branch:'Quản lý dịch vụ', j:'Trưởng nhóm CSKH, Quản lý vận hành', e:'Điều phối – lãnh đạo'},
+    {m:['E','S','J'], d:['I','C'], f:'DỊCH VỤ – CSKH', branch:'Dịch vụ đặc thù', j:'Hàng không, Khách sạn cao cấp, Ngân hàng', e:'Chuẩn mực cao'}
 ];
 
 const app = {
+    userInfo: {}, // Nơi lưu tạm thông tin người dùng
+
     init: function() {
         this.renderMBTI();
         this.renderDISC();
+        // Không gọi updateProgress ngay vì chưa hiện bài test
+    },
+
+    // --- HÀM MỚI: XỬ LÝ NÚT "BẮT ĐẦU" ---
+    startTest: function() {
+        const name = document.getElementById('inp-name').value.trim();
+        const phone = document.getElementById('inp-phone').value.trim();
+        const email = document.getElementById('inp-email').value.trim();
+
+        if (!name || !phone) {
+            alert("Vui lòng điền Tên và Số điện thoại để bắt đầu!");
+            return;
+        }
+
+        // Lưu thông tin vào bộ nhớ tạm
+        this.userInfo = { name, phone, email };
+
+        // Chuyển màn hình
+        document.getElementById('welcome-screen').style.display = 'none';
+        document.getElementById('main-app').style.display = 'block';
+        
+        // Cuộn lên đầu & cập nhật tiến độ
+        window.scrollTo({top: 0, behavior: 'smooth'});
         this.updateProgress();
     },
 
-    renderMBTI: function() {
-        const html = MBTI_DATA.map(q => `
-            <div class="q-card">
-                <span class="q-title">Câu ${q.id}: ${q.q}</span>
-                <div class="options-grid">
-                    <label class="opt-label">
-                        <input type="radio" name="m_${q.id}" value="A" onchange="app.updateProgress()">
-                        <span>A. ${q.a}</span>
-                    </label>
-                    <label class="opt-label">
-                        <input type="radio" name="m_${q.id}" value="B" onchange="app.updateProgress()">
-                        <span>B. ${q.b}</span>
-                    </label>
-                </div>
-            </div>
-        `).join('');
-        document.getElementById('mbti-list').innerHTML = html;
-    },
-
-    renderDISC: function() {
-        const html = DISC_DATA.map(q => `
-            <div class="q-card">
-                <span class="q-title">Câu ${q.id}: Chọn mô tả giống bạn nhất</span>
-                <div class="options-grid">
-                    ${q.opts.map(o => `
-                        <label class="opt-label">
-                            <input type="radio" name="d_${q.id}" value="${o.t}" onchange="app.updateProgress()">
-                            <span>${o.txt}</span>
-                        </label>
-                    `).join('')}
-                </div>
-            </div>
-        `).join('');
-        document.getElementById('disc-list').innerHTML = html;
-    },
-
-    updateProgress: function() {
-        const total = MBTI_DATA.length + DISC_DATA.length;
-        const checked = document.querySelectorAll('input[type="radio"]:checked').length;
-        const pct = (checked / total) * 100;
-        document.getElementById('progressBar').style.width = pct + '%';
-    },
-
-    switchTab: function(id) {
-        document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
-        
-        document.getElementById(id).classList.add('active');
-        
-        // Active button highlight logic
-        const btns = document.querySelectorAll('.tab-btn');
-        if(id === 'mbti') btns[0].classList.add('active');
-        if(id === 'disc') btns[1].classList.add('active');
-
-        // Auto scroll to content
-        window.scrollTo({top: 150, behavior: 'smooth'});
-    },
-
-    calculate: function() {
-        // Check progress
+    // --- HÀM MỚI: TÍNH ĐIỂM & GỬI LUÔN (Thay thế calculate cũ) ---
+    finishAndSave: function() {
+        // Kiểm tra tiến độ (Optional)
         const checked = document.querySelectorAll('input[type="radio"]:checked').length;
         if(checked < 80) {
-            if(!confirm(`Bạn mới hoàn thành ${checked}/80 câu. Kết quả có thể không chính xác. Bạn có muốn xem ngay không?`)) return;
+            if(!confirm(`Bạn mới làm ${checked}/80 câu. Kết quả có thể không chính xác. Bạn muốn nộp luôn?`)) return;
         }
 
-        // 1. Calc MBTI
+        // 1. Tính toán MBTI
         let s = {E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};
         MBTI_DATA.forEach(q => {
             const v = document.querySelector(`input[name="m_${q.id}"]:checked`)?.value;
@@ -183,7 +182,7 @@ const app = {
         });
         const mbti = (s.E>=s.I?'E':'I')+(s.S>=s.N?'S':'N')+(s.T>=s.F?'T':'F')+(s.J>=s.P?'J':'P');
 
-        // 2. Calc DISC
+        // 2. Tính toán DISC
         let dScore = {D:0,I:0,S:0,C:0};
         DISC_DATA.forEach(q => {
             const v = document.querySelector(`input[name="d_${q.id}"]:checked`)?.value;
@@ -191,60 +190,124 @@ const app = {
         });
         const disc = Object.keys(dScore).reduce((a,b)=>dScore[a]>dScore[b]?a:b);
 
-        // Show Results
+        // 3. Gửi Data về Google Sheet
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwtOmvFXP3e_51nxCtK2vJNUimb9djFLPojIxQqYUrpgf9WuqTicgbC4sFAUBVQzx5P/exec';
+        
+        const formData = new FormData();
+        formData.append('name', this.userInfo.name);
+        formData.append('phone', this.userInfo.phone);
+        formData.append('email', this.userInfo.email);
+        formData.append('mbti', mbti);
+        formData.append('disc', disc);
+
+        // Hiệu ứng Loading
+        const btn1 = document.querySelector('.btn-result');
+        const btn2 = document.querySelector('.finish-btn');
+        if(btn1) { btn1.innerText = "Đang xử lý..."; btn1.disabled = true; }
+        if(btn2) { btn2.innerText = "Đang xử lý..."; btn2.disabled = true; }
+
+        fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors'})
+            .then(() => {
+                console.log('Saved');
+                this.showResultModal(mbti, disc);
+            })
+            .catch(e => {
+                console.error(e);
+                alert('Lỗi kết nối, nhưng bạn vẫn xem được kết quả.');
+                this.showResultModal(mbti, disc);
+            })
+            .finally(() => {
+                if(btn1) { btn1.innerText = "✨ Xem Kết Quả"; btn1.disabled = false; }
+                if(btn2) { btn2.innerText = "Hoàn tất & Xem kết quả 🏁"; btn2.disabled = false; }
+            });
+    },
+
+    showResultModal: function(mbti, disc) {
+        document.getElementById('user-name-display').innerText = this.userInfo.name;
         document.getElementById('res-mbti').innerText = mbti;
         document.getElementById('res-disc').innerText = `Nhóm ${disc}`;
         document.getElementById('desc-mbti').innerText = this.getMBTIDesc(mbti);
         document.getElementById('desc-disc').innerText = this.getDISCDesc(disc);
 
-        // Career Match
+        // Career Logic
         const tbody = document.getElementById('career-body');
         tbody.innerHTML = '';
         let found = false;
-        
+// Tìm đoạn này trong hàm hiển thị kết quả và thay thế
         CAREERS.forEach(c => {
-            // Match Logic: Flexible (Match DISC + at least 2 MBTI letters)
             let mMatch = 0; c.m.forEach(t => { if(mbti.includes(t)) mMatch++; });
             const dMatch = c.d.includes(disc);
-
+            
+            // Logic khớp lệnh: Khớp DISC và ít nhất 2 ký tự MBTI
             if(dMatch && mMatch >= 2) {
                 found = true;
-                tbody.innerHTML += `<tr>
+                // Đã cập nhật dòng dưới để hiển thị Nhánh (Branch) và Vị trí (j)
+                tbody.innerHTML += `
+                <tr>
                     <td><strong>${c.f}</strong></td>
-                    <td>${c.j}</td>
+                    <td>
+                        <div style="font-weight:700; color:#6366f1;">${c.branch}</div>
+                        <div style="font-size:0.9em; margin-top:4px; color:#64748b;">${c.j}</div>
+                    </td>
                     <td>${c.e}</td>
                 </tr>`;
             }
         });
         document.getElementById('no-match').style.display = found ? 'none' : 'block';
-
         document.getElementById('result-modal').style.display = 'block';
     },
 
+    // ... Giữ nguyên các hàm renderMBTI, renderDISC, updateProgress, switchTab, resetTest, getMBTIDesc ...
+    // Chú ý: Hàm resetTest cần sửa lại một chút để reload trang hoặc hiện lại form
     resetTest: function() {
-        if(!confirm("Xóa toàn bộ câu trả lời và làm lại từ đầu?")) return;
-        document.querySelectorAll('input').forEach(i => i.checked = false);
-        this.updateProgress();
-        this.switchTab('mbti');
-        window.scrollTo({top:0, behavior:'smooth'});
-        document.getElementById('result-modal').style.display = 'none';
+        if(!confirm("Làm lại từ đầu?")) return;
+        location.reload(); // Cách nhanh nhất để reset về màn hình nhập form
     },
-
+    
+    // ... Copy nốt các hàm render... vào đây
+    renderMBTI: function() { /* Code cũ */
+        const html = MBTI_DATA.map(q => `
+            <div class="q-card">
+                <span class="q-title">Câu ${q.id}: ${q.q}</span>
+                <div class="options-grid">
+                    <label class="opt-label"><input type="radio" name="m_${q.id}" value="A" onchange="app.updateProgress()"><span>A. ${q.a}</span></label>
+                    <label class="opt-label"><input type="radio" name="m_${q.id}" value="B" onchange="app.updateProgress()"><span>B. ${q.b}</span></label>
+                </div>
+            </div>`).join('');
+        document.getElementById('mbti-list').innerHTML = html;
+    },
+    renderDISC: function() { /* Code cũ */
+        const html = DISC_DATA.map(q => `
+            <div class="q-card">
+                <span class="q-title">Câu ${q.id}: Chọn mô tả giống bạn nhất</span>
+                <div class="options-grid">
+                    ${q.opts.map(o => `<label class="opt-label"><input type="radio" name="d_${q.id}" value="${o.t}" onchange="app.updateProgress()"><span>${o.txt}</span></label>`).join('')}
+                </div>
+            </div>`).join('');
+        document.getElementById('disc-list').innerHTML = html;
+    },
+    updateProgress: function() { /* Code cũ */
+        const total = MBTI_DATA.length + DISC_DATA.length;
+        const checked = document.querySelectorAll('input[type="radio"]:checked').length;
+        document.getElementById('progressBar').style.width = (checked / total) * 100 + '%';
+    },
+    switchTab: function(id) { /* Code cũ */
+        document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        const btns = document.querySelectorAll('.tab-btn');
+        if(id === 'mbti') btns[0].classList.add('active');
+        if(id === 'disc') btns[1].classList.add('active');
+        window.scrollTo({top: 150, behavior: 'smooth'});
+    },
     getMBTIDesc: function(t) {
-        const dict = {
-            'ISTJ':'Người trách nhiệm', 'ISFJ':'Người nuôi dưỡng', 'INFJ':'Người che chở', 'INTJ':'Nhà chiến lược',
-            'ISTP':'Nhà kỹ thuật', 'ISFP':'Người nghệ sĩ', 'INFP':'Người lý tưởng', 'INTP':'Nhà tư duy',
-            'ESTP':'Người thực thi', 'ESFP':'Người trình diễn', 'ENFP':'Người truyền cảm hứng', 'ENTP':'Người nhìn xa',
-            'ESTJ':'Người điều hành', 'ESFJ':'Người quan tâm', 'ENFJ':'Người chỉ dẫn', 'ENTJ':'Nhà lãnh đạo'
-        };
+        const dict = {'ISTJ':'Người trách nhiệm', 'ISFJ':'Người nuôi dưỡng', 'INFJ':'Người che chở', 'INTJ':'Nhà chiến lược','ISTP':'Nhà kỹ thuật', 'ISFP':'Người nghệ sĩ', 'INFP':'Người lý tưởng', 'INTP':'Nhà tư duy','ESTP':'Người thực thi', 'ESFP':'Người trình diễn', 'ENFP':'Người truyền cảm hứng', 'ENTP':'Người nhìn xa','ESTJ':'Người điều hành', 'ESFJ':'Người quan tâm', 'ENFJ':'Người chỉ dẫn', 'ENTJ':'Nhà lãnh đạo'};
         return dict[t] || '';
     },
-
     getDISCDesc: function(t) {
         const dict = {'D':'Thống trị - Quyết đoán', 'I':'Ảnh hưởng - Nhiệt tình', 'S':'Kiên định - Trầm ổn', 'C':'Tuân thủ - Chính xác'};
         return dict[t] || '';
     }
 };
 
-// Khởi chạy ứng dụng
 app.init();
