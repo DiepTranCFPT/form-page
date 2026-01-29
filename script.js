@@ -29,7 +29,7 @@ const MBTI_DATA = [
     {id:20, g:4, q:"Bạn thích:", a:"Sự kiện có kế hoạch trước", b:"Sự kiện không có kế hoạch trước"}
 ];
 
-// --- DỮ LIỆU DISC (20 Câu - Đã map lại theo keywords mới) ---
+// --- DỮ LIỆU DISC ---
 const DISC_DATA = [
     {id:1, opts:[{t:'D', txt:'Cá tính mạnh mẽ'}, {t:'S', txt:'Tốt bụng, nhẹ nhàng'}, {t:'S', txt:'Chấp nhận mọi việc đến'}, {t:'I', txt:'Được mọi người ngưỡng mộ'}]},
     {id:2, opts:[{t:'D', txt:'Khó thư giãn'}, {t:'I', txt:'Vòng tròn bạn bè rộng'}, {t:'S', txt:'Sẵn lòng giúp đỡ'}, {t:'C', txt:'Cư xử đúng đắn, chuẩn mực'}]},
@@ -43,7 +43,7 @@ const DISC_DATA = [
     {id:10, opts:[{t:'I', txt:'Rất thuyết phục'}, {t:'S', txt:'Dịu dàng, ôn hòa'}, {t:'S', txt:'Khiêm tốn'}, {t:'I', txt:'Nhiều ý tưởng mới'}]},
     {id:11, opts:[{t:'C', txt:'Thận trọng'}, {t:'D', txt:'Quyết đoán'}, {t:'I', txt:'Giỏi thuyết phục'}, {t:'S', txt:'Thân thiện'}]},
     {id:12, opts:[{t:'S', txt:'Sẵn lòng thay đổi ý kiến'}, {t:'D', txt:'Thích tranh luận'}, {t:'I', txt:'Hay dịch chuyển'}, {t:'I', txt:'Luôn nhìn mặt tươi sáng'}]},
-    {id:13, opts:[{t:'S', txt:'Sẵn sàng với mọi thứ'}, {t:'D', txt:'Muốn thử điều mới'}, {t:'D', txt:'Không thích tranh luận'}, {t:'I', txt:'Tinh thần cao'}]}, // Lưu ý: Câu này option 3 trong đề là "Không thích tranh luận" thường là S, nhưng D cũng có thể nếu hiểu là áp đặt. Tạm map theo ngữ cảnh.
+    {id:13, opts:[{t:'S', txt:'Sẵn sàng với mọi thứ'}, {t:'D', txt:'Muốn thử điều mới'}, {t:'D', txt:'Không thích tranh luận'}, {t:'I', txt:'Tinh thần cao'}]},
     {id:14, opts:[{t:'S', txt:'Dễ tha thứ'}, {t:'S', txt:'Nhạy cảm'}, {t:'I', txt:'Nhiều năng lượng'}, {t:'I', txt:'Kết hợp được với mọi người'}]},
     {id:15, opts:[{t:'I', txt:'Thích trò chuyện'}, {t:'C', txt:'Kiểm soát cảm xúc'}, {t:'D', txt:'Hay đưa ra quan điểm'}, {t:'D', txt:'Quyết định nhanh'}]},
     {id:16, opts:[{t:'S', txt:'Giữ cảm xúc cho riêng mình'}, {t:'C', txt:'Coi trọng độ chính xác'}, {t:'D', txt:'Thích nói lên suy nghĩ'}, {t:'S', txt:'Rất thân thiện'}]},
@@ -53,7 +53,7 @@ const DISC_DATA = [
     {id:20, opts:[{t:'D', txt:'Quyết liệt'}, {t:'I', txt:'Hoạt ngôn'}, {t:'S', txt:'Ôn hòa'}, {t:'C', txt:'Nghiêm túc'}]}
 ];
 
-// --- DỮ LIỆU NGHỀ NGHIỆP MỚI ---
+// --- DỮ LIỆU NGHỀ NGHIỆP ---
 const CAREERS = [
     {m:['E','T','J'], d:['D','C'], f:'QUẢN LÝ – KINH DOANH', branch:'Quản trị – điều hành', j:'Quản trị KD, Quản lý dự án, Logistics, Chuỗi cung ứng', e:'Mục tiêu rõ, KPI, quyền quyết định'},
     {m:['E','T'], d:['D','I'], f:'QUẢN LÝ – KINH DOANH', branch:'Kinh doanh – phát triển', j:'Sales B2B, BizDev, Phát triển thị trường', e:'Giao tiếp, chiến lược, ảnh hưởng'},
@@ -79,46 +79,86 @@ const CAREERS = [
 ];
 
 const app = {
-    userInfo: {}, // Nơi lưu tạm thông tin người dùng
+    userInfo: {}, 
 
     init: function() {
         this.renderMBTI();
         this.renderDISC();
-        // Không gọi updateProgress ngay vì chưa hiện bài test
     },
 
-    // --- HÀM MỚI: XỬ LÝ NÚT "BẮT ĐẦU" ---
+    // 1. Hàm Validation (chuyển từ HTML sang đây)
+    validateForm: function() {
+        let phone = document.getElementById("inp-phone").value.trim();
+        let email = document.getElementById("inp-email").value.trim();
+        let name = document.getElementById("inp-name").value.trim();
+
+        let errPhone = document.getElementById("err-phone");
+        let errEmail = document.getElementById("err-email");
+
+        errPhone.textContent = "";
+        errEmail.textContent = "";
+
+        if (!name) {
+            alert("Vui lòng nhập Họ và Tên.");
+            return false;
+        }
+
+        let isValid = true;
+        // Regex số điện thoại VN
+        let phoneRegex = /^0\d{9}$/;
+
+        if (!phone) {
+            errPhone.textContent = "Vui lòng nhập số điện thoại";
+            isValid = false;
+        } else if (!phoneRegex.test(phone)) {
+            errPhone.textContent = "Số điện thoại không hợp lệ (VD: 0912345678)";
+            isValid = false;
+        }
+
+        // Regex email
+        let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email && !emailRegex.test(email)) {
+            errEmail.textContent = "Email không đúng định dạng";
+            isValid = false;
+        }
+
+        return isValid;
+    },
+
+    // 2. Xử lý nút Bắt đầu
+    handleStartTest: function(event) {
+        event.preventDefault();
+        
+        if (!this.validateForm()) {
+            return false;
+        }
+
+        this.startTest();
+    },
+
+    // 3. Khởi chạy bài test
     startTest: function() {
         const name = document.getElementById('inp-name').value.trim();
         const phone = document.getElementById('inp-phone').value.trim();
         const email = document.getElementById('inp-email').value.trim();
 
-        if (!name || !phone) {
-            alert("Vui lòng điền Tên và Số điện thoại để bắt đầu!");
-            return;
-        }
-
-        // Lưu thông tin vào bộ nhớ tạm
         this.userInfo = { name, phone, email };
 
-        // Chuyển màn hình
         document.getElementById('welcome-screen').style.display = 'none';
         document.getElementById('main-app').style.display = 'block';
         
-        // Cuộn lên đầu & cập nhật tiến độ
         window.scrollTo({top: 0, behavior: 'smooth'});
         this.updateProgress();
     },
 
-    // --- HÀM MỚI: TÍNH ĐIỂM & GỬI LUÔN (Thay thế calculate cũ) ---
+    // 4. Hoàn tất và Lưu
     finishAndSave: function() {
-        // Kiểm tra tiến độ (Optional)
         const checked = document.querySelectorAll('input[type="radio"]:checked').length;
         if(checked < 80) {
-            if(!confirm(`Bạn mới làm ${checked}/80 câu. Kết quả có thể không chính xác. Bạn muốn nộp luôn?`)) return;
+            if(!confirm(`Bạn mới làm ${checked}/40 câu. Kết quả có thể không chính xác. Bạn muốn nộp luôn?`)) return;
         }
 
-        // 1. Tính toán MBTI
+        // Tính toán MBTI
         let s = {E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};
         MBTI_DATA.forEach(q => {
             const v = document.querySelector(`input[name="m_${q.id}"]:checked`)?.value;
@@ -131,7 +171,7 @@ const app = {
         });
         const mbti = (s.E>=s.I?'E':'I')+(s.S>=s.N?'S':'N')+(s.T>=s.F?'T':'F')+(s.J>=s.P?'J':'P');
 
-        // 2. Tính toán DISC
+        // Tính toán DISC
         let dScore = {D:0,I:0,S:0,C:0};
         DISC_DATA.forEach(q => {
             const v = document.querySelector(`input[name="d_${q.id}"]:checked`)?.value;
@@ -139,8 +179,8 @@ const app = {
         });
         const disc = Object.keys(dScore).reduce((a,b)=>dScore[a]>dScore[b]?a:b);
 
-        // 3. Gửi Data về Google Sheet
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwtOmvFXP3e_51nxCtK2vJNUimb9djFLPojIxQqYUrpgf9WuqTicgbC4sFAUBVQzx5P/exec';
+        // Gửi Data
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyo4L1478YyCeh8NBNyJei8rjcHw9WFyCw5d_heqO0Kf_EvRnbgi8tDycKBMF7uXb4Swg/exec';
         
         const formData = new FormData();
         formData.append('name', this.userInfo.name);
@@ -149,7 +189,6 @@ const app = {
         formData.append('mbti', mbti);
         formData.append('disc', disc);
 
-        // Hiệu ứng Loading
         const btn1 = document.querySelector('.btn-result');
         const btn2 = document.querySelector('.finish-btn');
         if(btn1) { btn1.innerText = "Đang xử lý..."; btn1.disabled = true; }
@@ -178,19 +217,16 @@ const app = {
         document.getElementById('desc-mbti').innerText = this.getMBTIDesc(mbti);
         document.getElementById('desc-disc').innerText = this.getDISCDesc(disc);
 
-        // Career Logic
         const tbody = document.getElementById('career-body');
         tbody.innerHTML = '';
         let found = false;
-// Tìm đoạn này trong hàm hiển thị kết quả và thay thế
+
         CAREERS.forEach(c => {
             let mMatch = 0; c.m.forEach(t => { if(mbti.includes(t)) mMatch++; });
             const dMatch = c.d.includes(disc);
             
-            // Logic khớp lệnh: Khớp DISC và ít nhất 2 ký tự MBTI
             if(dMatch && mMatch >= 2) {
                 found = true;
-                // Đã cập nhật dòng dưới để hiển thị Nhánh (Branch) và Vị trí (j)
                 tbody.innerHTML += `
                 <tr>
                     <td><strong>${c.f}</strong></td>
@@ -206,15 +242,12 @@ const app = {
         document.getElementById('result-modal').style.display = 'block';
     },
 
-    // ... Giữ nguyên các hàm renderMBTI, renderDISC, updateProgress, switchTab, resetTest, getMBTIDesc ...
-    // Chú ý: Hàm resetTest cần sửa lại một chút để reload trang hoặc hiện lại form
     resetTest: function() {
         if(!confirm("Làm lại từ đầu?")) return;
-        location.reload(); // Cách nhanh nhất để reset về màn hình nhập form
+        location.reload();
     },
     
-    // ... Copy nốt các hàm render... vào đây
-    renderMBTI: function() { /* Code cũ */
+    renderMBTI: function() {
         const html = MBTI_DATA.map(q => `
             <div class="q-card">
                 <span class="q-title">Câu ${q.id}: ${q.q}</span>
@@ -225,7 +258,7 @@ const app = {
             </div>`).join('');
         document.getElementById('mbti-list').innerHTML = html;
     },
-    renderDISC: function() { /* Code cũ */
+    renderDISC: function() {
         const html = DISC_DATA.map(q => `
             <div class="q-card">
                 <span class="q-title">Câu ${q.id}: Chọn mô tả giống bạn nhất</span>
@@ -235,12 +268,12 @@ const app = {
             </div>`).join('');
         document.getElementById('disc-list').innerHTML = html;
     },
-    updateProgress: function() { /* Code cũ */
+    updateProgress: function() {
         const total = MBTI_DATA.length + DISC_DATA.length;
         const checked = document.querySelectorAll('input[type="radio"]:checked').length;
         document.getElementById('progressBar').style.width = (checked / total) * 100 + '%';
     },
-    switchTab: function(id) { /* Code cũ */
+    switchTab: function(id) {
         document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
         document.getElementById(id).classList.add('active');
