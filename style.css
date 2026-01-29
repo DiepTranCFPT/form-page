@@ -343,3 +343,28 @@ td { border-bottom: 1px solid #e2e8f0; padding: 12px; }
     box-shadow: 0 0 15px rgba(239, 68, 68, 0.3) !important;
     transition: all 0.3s;
 }
+
+/* --- RESPONSIVE TABLE (Biến bảng thành thẻ trên Mobile) --- */
+@media (max-width: 600px) {
+    #career-table thead { display: none; } /* Giấu tiêu đề bảng */
+    #career-table, #career-table tbody, #career-table tr, #career-table td {
+        display: block; width: 100%;
+    }
+    #career-table tr {
+        margin-bottom: 15px;
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    #career-table td {
+        border: none;
+        padding: 5px 10px;
+        text-align: left;
+    }
+    /* Tạo nhãn giả lập cho từng dòng */
+    #career-table td:nth-child(1)::before { content: "Nhóm ngành: "; font-weight: bold; color: #64748b; }
+    #career-table td:nth-child(2)::before { content: "Chi tiết: "; font-weight: bold; color: #64748b; }
+    #career-table td:nth-child(3)::before { content: "Môi trường: "; font-weight: bold; color: #64748b; }
+}

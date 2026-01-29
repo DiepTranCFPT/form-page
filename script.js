@@ -223,13 +223,20 @@ const app = {
             })
             .catch(e => {
                 console.error(e);
-                alert('Lỗi kết nối, nhưng bạn vẫn xem được kết quả.');
+                // Phải báo rõ cho người dùng biết
+                alert('⚠️ Cảnh báo: Có lỗi kết nối đến máy chủ lưu trữ.\nKết quả của bạn vẫn được hiển thị bên dưới, nhưng có thể chưa được lưu vào hệ thống.');
                 this.showResultModal(mbti, disc);
-            })
+            })  
             .finally(() => {
                 if(btn1) { btn1.innerText = "✨ Xem Kết Quả"; btn1.disabled = false; }
                 if(btn2) { btn2.innerText = "Hoàn tất & Xem kết quả 🏁"; btn2.disabled = false; }
             });
+            // Lưu lại để lần sau vào không bị mất
+            localStorage.setItem('user_result', JSON.stringify({
+                name: this.userInfo.name,
+                mbti: mbti,
+                disc: disc
+            }));
     },
 
     showResultModal: function(mbti, disc) {
@@ -335,5 +342,24 @@ const app = {
         return dict[t] || '';
     }
 };
+
+// Ngăn người dùng lỡ tay tắt tab hoặc reload
+window.addEventListener('beforeunload', function (e) {
+    // Chỉ cảnh báo nếu đang ở màn hình làm bài (main-app hiển thị)
+    if (document.getElementById('main-app').style.display === 'block') {
+        e.preventDefault();
+        e.returnValue = ''; // Yêu cầu trình duyệt hiện popup cảnh báo chuẩn
+    }
+});
+
+// Kiểm tra xem đã từng làm bài chưa
+const savedResult = localStorage.getItem('user_result');
+if(savedResult) {
+    const data = JSON.parse(savedResult);
+    if(confirm(`Chào ${data.name}, bạn đã làm bài test trước đó. Bạn có muốn xem lại kết quả không?`)) {
+        this.userInfo = data;
+        this.showResultModal(data.mbti, data.disc);
+    }
+}
 
 app.init();
