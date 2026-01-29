@@ -320,10 +320,26 @@ td { border-bottom: 1px solid #e2e8f0; padding: 12px; }
 }
 .modal-footer { text-align: center; margin-top: 30px; }
 
+
+
 @media (max-width: 600px) {
     .nav-tabs { flex-direction: column; align-items: stretch; }
     .action-group { align-items: stretch; margin-top: 10px; }
     .btn-result { text-align: center; }
     .result-grid { grid-template-columns: 1fr; }
     h1 { font-size: 1.8rem; }
+}
+/* --- HIỆU ỨNG BÁO LỖI (Thêm vào cuối file) --- */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.highlight-error {
+    animation: shake 0.4s ease-in-out;
+    border: 2px solid #ef4444 !important; /* Viền đỏ */
+    background-color: #fef2f2 !important; /* Nền đỏ nhạt */
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3) !important;
+    transition: all 0.3s;
 }

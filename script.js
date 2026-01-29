@@ -157,20 +157,28 @@ const app = {
 
     // 4. Hoàn tất và Lưu
     finishAndSave: function() {
-        const checked = document.querySelectorAll('input[type="radio"]:checked').length;
+        // 3.1. Kiểm tra từng câu MBTI
+        for (let q of MBTI_DATA) {
+            const checked = document.querySelector(`input[name="m_${q.id}"]:checked`);
+            if (!checked) {
+                alert(`Bạn chưa trả lời câu số ${q.id} phần Tính cách (MBTI).`);
+                this.scrollToQuestion('mbti', `q-mbti-${q.id}`);
+                return; // Dừng ngay lập tức, không gửi
+            }
+        }
 
+        // 3.2. Kiểm tra từng câu DISC
+        for (let q of DISC_DATA) {
+            const checked = document.querySelector(`input[name="d_${q.id}"]:checked`);
+            if (!checked) {
+                alert(`Bạn chưa trả lời câu số ${q.id} phần Hành vi (DISC).`);
+                this.scrollToQuestion('disc', `q-disc-${q.id}`);
+                return; // Dừng ngay lập tức, không gửi
+            }
+        }
+
+        // --- NẾU ĐÃ ĐIỀN ĐỦ HẾT THÌ MỚI TÍNH ĐIỂM & GỬI ---
         
-        if(checked < 40) {
-            if(!confirm(`Bạn mới làm ${checked}/40 câu. Kết quả có thể không chính xác. Bạn muốn nộp luôn?`)) return;
-            const mbtiChecked = document.querySelectorAll('#mbti-list input[type="radio"]:checked').length;
-        if (mbtiChecked < MBTI_DATA.length) {
-            this.switchTab('mbti');
-        } else {
-            this.switchTab('disc');
-        }
-        return; // Dừng hàm, không cho phép tính toán kết quả
-        }
-
         // Tính toán MBTI
         let s = {E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};
         MBTI_DATA.forEach(q => {
@@ -192,7 +200,7 @@ const app = {
         });
         const disc = Object.keys(dScore).reduce((a,b)=>dScore[a]>dScore[b]?a:b);
 
-        // Gửi Data
+        // Gửi Data về Google Sheet
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyo4L1478YyCeh8NBNyJei8rjcHw9WFyCw5d_heqO0Kf_EvRnbgi8tDycKBMF7uXb4Swg/exec';
         
         const formData = new FormData();
@@ -202,6 +210,7 @@ const app = {
         formData.append('mbti', mbti);
         formData.append('disc', disc);
 
+        // Hiệu ứng Loading
         const btn1 = document.querySelector('.btn-result');
         const btn2 = document.querySelector('.finish-btn');
         if(btn1) { btn1.innerText = "Đang xử lý..."; btn1.disabled = true; }
@@ -260,9 +269,10 @@ const app = {
         location.reload();
     },
     
-    renderMBTI: function() {
+   renderMBTI: function() {
+        // Thêm id="q-mbti-${q.id}" vào thẻ div cha
         const html = MBTI_DATA.map(q => `
-            <div class="q-card">
+            <div class="q-card" id="q-mbti-${q.id}"> 
                 <span class="q-title">Câu ${q.id}: ${q.q}</span>
                 <div class="options-grid">
                     <label class="opt-label"><input type="radio" name="m_${q.id}" value="A" onchange="app.updateProgress()"><span>A. ${q.a}</span></label>
@@ -271,15 +281,36 @@ const app = {
             </div>`).join('');
         document.getElementById('mbti-list').innerHTML = html;
     },
+
     renderDISC: function() {
+        // Thêm id="q-disc-${q.id}" vào thẻ div cha
         const html = DISC_DATA.map(q => `
-            <div class="q-card">
+            <div class="q-card" id="q-disc-${q.id}">
                 <span class="q-title">Câu ${q.id}: Chọn mô tả giống bạn nhất</span>
                 <div class="options-grid">
                     ${q.opts.map(o => `<label class="opt-label"><input type="radio" name="d_${q.id}" value="${o.t}" onchange="app.updateProgress()"><span>${o.txt}</span></label>`).join('')}
                 </div>
             </div>`).join('');
         document.getElementById('disc-list').innerHTML = html;
+    },
+    scrollToQuestion: function(tabId, elementId) {
+        // Chuyển sang tab chứa câu hỏi đó
+        this.switchTab(tabId);
+        
+        // Đợi 1 chút để tab chuyển xong rồi mới scroll
+        setTimeout(() => {
+            const el = document.getElementById(elementId);
+            if(el) {
+                // Cuộn màn hình đến đúng vị trí
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Thêm class báo lỗi (rung lắc + đỏ)
+                el.classList.add('highlight-error');
+                
+                // Sau 2 giây thì tắt hiệu ứng đỏ đi
+                setTimeout(() => el.classList.remove('highlight-error'), 2000);
+            }
+        }, 100);
     },
     updateProgress: function() {
         const total = MBTI_DATA.length + DISC_DATA.length;
