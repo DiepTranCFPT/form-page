@@ -158,8 +158,17 @@ const app = {
     // 4. Hoàn tất và Lưu
     finishAndSave: function() {
         const checked = document.querySelectorAll('input[type="radio"]:checked').length;
-        if(checked < 80) {
+
+        
+        if(checked < 40) {
             if(!confirm(`Bạn mới làm ${checked}/40 câu. Kết quả có thể không chính xác. Bạn muốn nộp luôn?`)) return;
+            const mbtiChecked = document.querySelectorAll('#mbti-list input[type="radio"]:checked').length;
+        if (mbtiChecked < MBTI_DATA.length) {
+            this.switchTab('mbti');
+        } else {
+            this.switchTab('disc');
+        }
+        return; // Dừng hàm, không cho phép tính toán kết quả
         }
 
         // Tính toán MBTI
