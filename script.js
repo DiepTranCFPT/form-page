@@ -121,6 +121,10 @@ const app = {
             errEmail.textContent = "Email không đúng định dạng";
             isValid = false;
         }
+          if (!email) {
+            errEmail.textContent = "Vui lòng nhập email để nhận kết quả";
+            isValid = false;
+        } 
 
         return isValid;
     },
