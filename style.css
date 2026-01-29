@@ -1,19 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@700;900&display=swap');
 
 :root {
-    /* Palette màu "High Energy" */
-    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-    --secondary-gradient: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
-    --surface: rgba(255, 255, 255, 0.95);
-    --bg-glass: rgba(255, 255, 255, 0.7);
+    /* --- BẢNG MÀU MỚI (ACADEMIC BLUE) --- */
+    /* Màu chính lấy cảm hứng từ banner "Academics" */
+    --primary-color: #4353ff; 
+    
+    /* Gradient xanh đậm đà, chuyên nghiệp hơn */
+    --primary-gradient: linear-gradient(135deg, #4353ff 0%, #2563eb 100%);
+    
+    /* Gradient phụ (giữ lại chút xanh ngọc để tươi mới nhưng trầm hơn) */
+    --secondary-gradient: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
+    
+    --surface: rgba(255, 255, 255, 0.98);
+    --bg-glass: rgba(255, 255, 255, 0.85);
+    
     --text-main: #1e293b;
     --text-light: #64748b;
-    --highlight: #8b5cf6;
+    
+    --highlight: #4353ff; /* Màu nhấn đồng bộ */
     --success: #10b981;
-    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    --shadow-glow: 0 0 20px rgba(139, 92, 246, 0.3);
+    
+    /* Shadow đổi sang ánh xanh */
+    --shadow-lg: 0 20px 25px -5px rgba(67, 83, 255, 0.15), 0 10px 10px -5px rgba(67, 83, 255, 0.05);
+    --shadow-glow: 0 0 25px rgba(67, 83, 255, 0.25);
+    
     --radius: 20px;
-    --font-heading: 'Merriweather', serif; /* Font có chân cho tiêu đề */
+    --font-heading: 'Merriweather', serif;
     --font-body: 'Inter', sans-serif;
 }
 
@@ -21,11 +33,11 @@
 
 body {
     font-family: var(--font-body);
-    background: #f0f9ff;
-    /* Hiệu ứng nền Gradient mờ ảo */
+    background: #f5f8ff; /* Nền xanh rất nhạt */
+    /* Hiệu ứng nền Gradient mờ ảo tông xanh */
     background-image: 
-        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+        radial-gradient(at 0% 0%, rgba(67, 83, 255, 0.1) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.1) 0px, transparent 50%);
     background-attachment: fixed;
     color: var(--text-main);
     margin: 0; padding: 20px;
@@ -41,7 +53,7 @@ body {
     height: 100%; width: 0%;
     background: var(--primary-gradient);
     transition: width 0.3s ease;
-    box-shadow: var(--shadow-glow);
+    box-shadow: 0 2px 10px rgba(67, 83, 255, 0.4);
 }
 
 .container {
@@ -86,8 +98,8 @@ h1 {
     margin: 0 auto;
     background: white;
     border-radius: 24px;
-    box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.2);
-    border: 1px solid rgba(99, 102, 241, 0.1);
+    box-shadow: 0 20px 40px -10px rgba(67, 83, 255, 0.15); /* Shadow xanh */
+    border: 1px solid rgba(67, 83, 255, 0.1);
     padding: 10px;
 }
 
@@ -110,7 +122,8 @@ h1 {
     font-size: 1rem; transition: all 0.2s; outline: none;
 }
 .form-group input:focus {
-    border-color: #8b5cf6; box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    border-color: var(--highlight); 
+    box-shadow: 0 0 0 3px rgba(67, 83, 255, 0.15);
 }
 
 .btn-start {
@@ -119,7 +132,7 @@ h1 {
     color: white; font-weight: 800; font-size: 1.1rem;
     border: none; border-radius: 12px;
     cursor: pointer; margin-top: 10px;
-    box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 10px 20px -5px rgba(67, 83, 255, 0.3);
     transition: transform 0.2s;
 }
 .btn-start:hover { transform: translateY(-3px); }
@@ -150,7 +163,7 @@ h1 {
 
 .tab-btn.active {
     background: white;
-    color: #6366f1;
+    color: var(--highlight); /* Đổi màu text active */
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
 }
 
@@ -184,8 +197,8 @@ h1 {
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 .intro-card {
-    background: linear-gradient(to right, #eff6ff, #f5f3ff);
-    border-left: 5px solid #6366f1;
+    background: linear-gradient(to right, #eff6ff, #f0f7ff); /* Nền xanh rất nhẹ */
+    border-left: 5px solid var(--highlight); /* Viền trái màu xanh */
     padding: 20px; border-radius: 12px;
     margin-bottom: 30px; color: #334155;
 }
@@ -204,7 +217,7 @@ h1 {
 .q-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
-    border-color: #e0e7ff;
+    border-color: #bfdbfe; /* Viền xanh nhạt khi hover */
 }
 
 .q-title { 
@@ -228,24 +241,26 @@ h1 {
 
 /* Active State */
 .opt-label:has(input:checked) {
-    border-color: #8b5cf6;
-    background: #f5f3ff;
-    color: #7c3aed;
+    border-color: var(--highlight);
+    background: #eff6ff; /* Nền xanh nhạt */
+    color: var(--primary-color);
 }
 
 .opt-label input {
     margin-right: 15px; width: 20px; height: 20px;
-    accent-color: #7c3aed;
+    accent-color: var(--primary-color);
 }
 
 /* --- Footer Nav --- */
 .footer-nav { margin-top: 40px; text-align: center; }
 .btn-next {
-    background: white; border: 2px solid #6366f1; color: #6366f1;
+    background: white; 
+    border: 2px solid var(--highlight); 
+    color: var(--highlight);
     padding: 15px 40px; font-size: 1.1rem; font-weight: 700;
     border-radius: 50px; cursor: pointer; transition: all 0.2s;
 }
-.btn-next:hover { background: #6366f1; color: white; }
+.btn-next:hover { background: var(--highlight); color: white; }
 
 .finish-btn {
     background: #1e293b; color: white; border: none;
@@ -287,7 +302,9 @@ h1 {
 }
 .res-val { 
     font-size: 2.5rem; font-weight: 800; display: block; margin: 10px 0;
-    background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background: var(--primary-gradient); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent;
     font-family: var(--font-heading);
 }
 .res-box small { color: #64748b; }
